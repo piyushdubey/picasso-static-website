@@ -37,25 +37,37 @@ class Mint extends Component {
       const address = networkData.address
       const contract = new web3.eth.Contract(abi, address)
       this.setState({ contract })
-      const totalSupply = await contract.methods.totalSupply().call()
-      this.setState({ totalSupply })
+      const totalMinted = await contract.methods.totalMinted().call()
+      this.setState({ totalMinted })
+
+      console.log(totalMinted)
+
       // Load images
-      for (var i = 1; i <= totalSupply; i++) {
-        const imageUrl = await contract.methods.imageUrls(i - 1).call()
+      for (var i = 1; i <= totalMinted; i++) {
+        const tokenURI = await contract.methods.tokenURI(i).call()
+        console.log('tokenUri=')
+        console.log(tokenURI)
         this.setState({
-          imageUrls: [...this.state.imageUrl, imageUrl]
+          tokenURIs: [...this.state.tokenURIs, tokenURI]
         })
       }
+
+      console.log(this.state.tokenURIs)
     } else {
       window.alert('Smart contract not deployed to detected network.')
     }
   }
 
-  mint = (imageUrl) => {
-    this.state.contract.methods.mint(imageUrl).send({ from: this.state.account })
+  mint = (account, tokenURI) => {
+    console.log('account=')
+    console.log(account)
+    console.log('tokenUri=')
+    console.log(tokenURI)
+    this.state.contract.methods.mintNFT(account, tokenURI).send({ from: account })
     .once('receipt', (receipt) => {
+      console.log(receipt)
       this.setState({
-        imageUrls: [...this.state.imageUrl, imageUrl]
+        tokenURIs: [...this.state.tokenURIs, tokenURI]
       })
     })
   }
@@ -66,8 +78,8 @@ class Mint extends Component {
     this.state = {
       account: '',
       contract: null,
-      totalSupply: 0,
-      imageUrls: []
+      totalMinted: 0,
+      tokenURIs: []
     }
   }
 
@@ -96,8 +108,8 @@ class Mint extends Component {
                 <h1>Issue Token</h1>
                 <form onSubmit={(event) => {
                   event.preventDefault()
-                  const nftImage = this.image.value
-                  this.mint(nftImage)
+                  const tokenURI = this.nftImage.value
+                  this.mint(this.state.account, tokenURI)
                 }}>
                   <input
                     type='text'
@@ -116,11 +128,11 @@ class Mint extends Component {
           </div>
           <hr/>
           <div className="row text-center">
-            { this.state.imageUrls.map((image, key) => {
+            { this.state.tokenURIs.map((tokenURI, key) => {
               return(
                 <div key={key} className="col-md-3 mb-3">
-                  <div className="token" style={{ backgroundColor: 'yellow' }}></div>
-                  <div>TEST</div>
+                  <img src={tokenURI} className="token" style={{ backgroundColor: 'yellow' }} />
+                  <div>{key}</div>
                 </div>
               )
             })}
