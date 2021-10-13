@@ -1,24 +1,39 @@
-pragma solidity ^0.5.16;
+// Contract based on https://docs.openzeppelin.com/contracts/4.x/erc721
+// SPDX-License-Identifier: MIT
 
-import "@openzeppelin/contracts/token/ERC721/ERC721Full.sol";
+pragma solidity ^0.8.0;
 
-contract Picasso is ERC721Full {
+import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
+import "@openzeppelin/contracts/utils/Counters.sol";
 
-    string[] public imageUrls;
+contract Picasso is ERC721URIStorage {
+    using Counters for Counters.Counter;
+    Counters.Counter private _tokenCounter;
+
     mapping(string => bool) _imageExists;
 
-    constructor() ERC721Full("Picasso", "PICASSO") public {
+    constructor() ERC721("Picasso", "PICASSO") {
 
     }
 
-    function mint(string memory _imageUrl) public {
-        // Require unique image
-        uint _id = 0;//generate unique guid
+    function mintNFT(address recipient, string memory tokenURI)
+    public
+    returns (uint256)
+    {
+        // Make sure the tokenURI has not been minted
+        require(!_imageExists[tokenURI]);
         
-        // Image - add it
-        // Call the mint function
-        _mint(msg.sender, _id);
-        _imageExists[_imageUrl] = true;
-        // Image - track it
+        // Increament id
+        _tokenCounter.increment();
+        uint256 newItemId = _tokenCounter.current();
+
+        // Mint
+        _mint(recipient, newItemId);
+        _setTokenURI(newItemId, tokenURI);
+
+        // Track minted tokenURI
+        _imageExists[tokenURI] = true;
+
+        return newItemId;
     }
 }

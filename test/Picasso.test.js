@@ -37,31 +37,17 @@ contract('Picasso', (accounts) => {
 
     describe('minting', async() => {
         it('creates a new token', async () => {
-            const result = await contract.mint('https://azureblobaddress.com/file-name.jpeg')
-            const totalSupply = await contract.totalSupply()
-
-            // TODO: Fix total supply (depends on unique logic from the contract)
-            // assert.equal(totalSupply, 1)
+            // SUCCESS
+            const tokenUri = 'https://azureblobaddress.com/file-name.jpeg'
+            const result = await contract.mintNFT(accounts[0], tokenUri)
             const event = result.logs[0].args
-            // assert.equal(event.tokenId.toNumber(), 1, 'id is correct')
+            assert.equal(event.tokenId.toNumber(), 1, 'id is correct')
             assert.equal(event.from, '0x0000000000000000000000000000000000000000', 'from is correct');
             assert.equal(event.to, accounts[0], 'to is correct');
 
             // FAILURE
-            // await contract.mint('https://azureblobaddress.com/file-name.jpeg').should.be.rejected;
-            // cannot mint same image twice
+            // Should not allow an image to be minted twice
+            await contract.mintNFT(accounts[0], tokenUri).should.be.rejected;
         })
     })
-
-    // describe('indexing', async () => {
-    //     it('lists images', async () => {
-    //         await contract.mint('url1')
-    //         await contract.mint('url2')
-    //         await contract.mint('url3')
-    //         const totalSupply = await contract.totalSupply()
-            
-    //     })
-    // })
-
-
 })
