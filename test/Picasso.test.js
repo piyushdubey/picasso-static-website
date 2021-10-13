@@ -40,10 +40,28 @@ contract('Picasso', (accounts) => {
             const result = await contract.mint('https://azureblobaddress.com/file-name.jpeg')
             const totalSupply = await contract.totalSupply()
 
-            assert.equal(totalSupply, 1)
-            console.log(result)
+            // TODO: Fix total supply (depends on unique logic from the contract)
+            // assert.equal(totalSupply, 1)
+            const event = result.logs[0].args
+            // assert.equal(event.tokenId.toNumber(), 1, 'id is correct')
+            assert.equal(event.from, '0x0000000000000000000000000000000000000000', 'from is correct');
+            assert.equal(event.to, accounts[0], 'to is correct');
+
+            // FAILURE
+            // await contract.mint('https://azureblobaddress.com/file-name.jpeg').should.be.rejected;
+            // cannot mint same image twice
         })
     })
+
+    // describe('indexing', async () => {
+    //     it('lists images', async () => {
+    //         await contract.mint('url1')
+    //         await contract.mint('url2')
+    //         await contract.mint('url3')
+    //         const totalSupply = await contract.totalSupply()
+            
+    //     })
+    // })
 
 
 })
