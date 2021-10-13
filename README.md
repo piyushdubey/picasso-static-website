@@ -1,10 +1,12 @@
-# Picasso AI + NFT Generator
+# Picasso AI + NFT Generator 
+
+### https://azurepicasso.azurewebsites.net/
 
 ## Available Scripts
 
 In the project directory, you can run:
 
-### `npm start`
+### `npm start` (localhost:3000)
 ### `npm test`
 ### `npm run build`
 
