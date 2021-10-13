@@ -11,7 +11,7 @@ class UploadImage extends Component {
  
       // Initially, no file is selected
       selectedFile: null,
-      data: {title:'Intial title',id:'453',createdAt:'2021-10-13T19:54:41.462Z'}
+      data: { image_urls: [["https://mlopsvarmaamlsa.blob.core.windows.net/styleai/Vangough.png"]] }
     };
     
     // On file select (from the pop up)
@@ -39,12 +39,12 @@ class UploadImage extends Component {
       console.log(fileUrl);
 
       console.log("hello2");  
-    const article = { title: 'Axios POST Request Example' };
-    const response = await axios.post('https://reqres.in/api/articles', article);
-    console.log(response);
+      const article = { title: 'Axios POST Request Example' };
+      const response = await axios.post('https://reqres.in/api/articles', article);
+      console.log(response);
     
     var context = this;
-    context.setState({data: response.data});
+    context.setState({data: { image_urls: [["https://mlopsvarmaamlsa.blob.core.windows.net/original-styled-images/Vangough_styled_1.png"],["https://mlopsvarmaamlsa.blob.core.windows.net/original-styled-images/Vangough_styled_2.png"],["https://mlopsvarmaamlsa.blob.core.windows.net/original-styled-images/Vangough_styled_3.png"],["https://mlopsvarmaamlsa.blob.core.windows.net/original-styled-images/Vangough_styled_4.png"],["https://mlopsvarmaamlsa.blob.core.windows.net/original-styled-images/Vangough_styled_5.png"],["https://mlopsvarmaamlsa.blob.core.windows.net/original-styled-images/Vangough_styled_6.png"]] }});
    // this.setState({data: response});    
     console.log(response.data.id);
 
@@ -86,8 +86,7 @@ class UploadImage extends Component {
     render() {
     
       return (
-        <div>
-            <h2>USD: {this.state.data.title}</h2>
+        <div>                       
             <h3>
               Upload Your Creation!
             </h3>
@@ -96,8 +95,20 @@ class UploadImage extends Component {
                 <button onClick={this.onFileUpload.bind(this)}>
                   Generate new art!
                 </button>
-            </div>
-          {this.fileData()}
+            </div>    
+            <br/>      
+          <div className="Container">
+              {
+                this.state.data.image_urls.map(image => (
+                    <div className= "image-card">
+                        <label>
+                        <input type="radio" name="test" value="small"/>
+                        <img className="image" src={image}  />
+                        </label>
+                    </div> 
+              ))}   
+              </div> 
+              
         </div>
       );
     }
