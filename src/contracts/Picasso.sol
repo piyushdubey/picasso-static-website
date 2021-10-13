@@ -11,6 +11,7 @@ contract Picasso is ERC721URIStorage {
     Counters.Counter private _tokenCounter;
 
     mapping(string => bool) _imageExists;
+    uint256[] public mintedTokenIds;
 
     constructor() ERC721("Picasso", "PICASSO") {
 
@@ -29,11 +30,16 @@ contract Picasso is ERC721URIStorage {
 
         // Mint
         _mint(recipient, newItemId);
+        mintedTokenIds.push(newItemId);
         _setTokenURI(newItemId, tokenURI);
 
         // Track minted tokenURI
         _imageExists[tokenURI] = true;
 
         return newItemId;
+    }
+
+    function totalMinted() public view returns (uint256) {
+        return mintedTokenIds.length;
     }
 }
