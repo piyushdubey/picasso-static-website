@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/dfcf68ca-fb95-4428-bdb5-9052d22cabb3/resourceGroups/azurepicasso-rg/providers/Microsoft.Web/sites/azurepicasso",
+    "appService.deploySubpath": "."
+}
