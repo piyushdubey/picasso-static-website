@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@azure/storage-blob": "^12.8.0",
     "@fluentui/react": "^8.36.5",
     "@openzeppelin/contracts": "^2.3.0",
     "@testing-library/jest-dom": "^5.14.1",
