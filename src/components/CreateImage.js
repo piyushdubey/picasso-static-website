@@ -1,6 +1,6 @@
 import React from "react";
-import { Stack } from '@fluentui/react';
-import { DefaultButton } from '@fluentui/react/lib/Button';
+import { Stack, DefaultButton } from '@fluentui/react';
+// import { DefaultButton } from '@fluentui/react/lib/Button';
 import { ReactComponent as CreateImagePic } from "./CreateImage.svg";
 import { useHistory } from "react-router-dom";
 
