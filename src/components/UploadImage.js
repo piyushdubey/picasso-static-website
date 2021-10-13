@@ -10,7 +10,8 @@ class UploadImage extends Component {
     state = {
  
       // Initially, no file is selected
-      selectedFile: null
+      selectedFile: null,
+      data: {title:'Intial title',id:'453',createdAt:'2021-10-13T19:54:41.462Z'}
     };
     
     // On file select (from the pop up)
@@ -22,17 +23,8 @@ class UploadImage extends Component {
     };
     
     // On file upload (click the upload button)
-     onFileUpload = async () => {
-    
-      // Create an object of formData
-      const formData = new FormData();
-    
-      // Update the formData object
-      formData.append(
-        "myFile",
-        this.state.selectedFile,
-        this.state.selectedFile.name
-      );
+     onFileUpload = async () => {  
+  
     
       const blobservice= new BlobServiceClient('https://mlopsvarmaamlsa.blob.core.windows.net/?sv=2020-08-04&ss=bfqt&srt=co&sp=rwdlacuptfx&se=2021-10-30T07:13:29Z&st=2021-10-12T23:13:29Z&spr=https&sig=k%2FD4XLyZ7%2FHZJc%2B0idbr2WL0e9IEHmW%2FJEjDbWPK9HU%3D');
       const containerClient = blobservice.getContainerClient('styleai');
@@ -45,6 +37,18 @@ class UploadImage extends Component {
 
       let fileUrl = `https://mlopsvarmaamlsa.blob.core.windows.net/styleai/${this.state.selectedFile.name}}`
       console.log(fileUrl);
+
+      console.log("hello2");  
+    const article = { title: 'Axios POST Request Example' };
+    const response = await axios.post('https://reqres.in/api/articles', article);
+    console.log(response);
+    
+    var context = this;
+    context.setState({data: response.data});
+   // this.setState({data: response});    
+    console.log(response.data.id);
+
+
     };
     
     // File content to be displayed after
@@ -83,12 +87,13 @@ class UploadImage extends Component {
     
       return (
         <div>
+            <h2>USD: {this.state.data.title}</h2>
             <h3>
               Upload Your Creation!
             </h3>
             <div>
                 <input type="file" onChange={this.onFileChange} />
-                <button onClick={this.onFileUpload}>
+                <button onClick={this.onFileUpload.bind(this)}>
                   Generate new art!
                 </button>
             </div>
