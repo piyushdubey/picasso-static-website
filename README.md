@@ -5,7 +5,8 @@
 ## Available Scripts
 
 In the project directory, you can run:
-
+### `npm install`
+### `npm run-script bui`
 ### `npm start` (localhost:3000)
 ### `npm test`
 ### `npm run build`

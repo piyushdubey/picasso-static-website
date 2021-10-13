@@ -34,3 +34,21 @@
   border-radius: 50%;
   display: inline-block;
 }
+
+.Container{
+  width:80%;
+  margin: auto;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+  }
+  
+  .image-card {
+  padding: 2px;
+  border: 1px solid #ddd;
+  border-radius: 2px;
+  }
+  .image {
+    width: 100%;
+  }
+  
