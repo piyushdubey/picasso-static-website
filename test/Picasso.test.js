@@ -34,4 +34,16 @@ contract('Picasso', (accounts) => {
             assert.equal(symbol, 'PICASSO')
         })
     })
+
+    describe('minting', async() => {
+        it('creates a new token', async () => {
+            const result = await contract.mint('https://azureblobaddress.com/file-name.jpeg')
+            const totalSupply = await contract.totalSupply()
+
+            assert.equal(totalSupply, 1)
+            console.log(result)
+        })
+    })
+
+
 })
